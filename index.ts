@@ -28,3 +28,32 @@ class ScaleUtil {
         return Math.sin(scale * Math.PI)
     }
 }
+
+
+class DrawingUtil {
+
+    static drawCircle(context : CanvasRenderingContext2D, x : number, y : number, r : number) {
+        context.beginPath()
+        context.arc(x, y, r, 0, 2 * Math.PI)
+        context.fill()
+    }
+
+    static drawSquarePipeCircle(context : CanvasRenderingContext2D, scale : number) {
+        const size : number = Math.min(w, h) / sizeFactor
+        const sf : number = ScaleUtil.sinify(scale)
+        const sf1 : number = ScaleUtil.divideScale(sf, 0, parts)
+        const sf2 : number = ScaleUtil.divideScale(sf, 1, parts)
+        const sf3 : number = ScaleUtil.divideScale(sf, 2, parts) 
+        context.save()
+        context.translate(w / 2, 0)
+        context.fillRect(-size / 2, h - h * sf1, size, h * sf1)
+        context.fillStyle = backColor
+        DrawingUtil.drawCircle(context, 0, h * 0.5 * sf3,  size * 0.5 * sf2)
+        context.restore()
+    } 
+
+    static drawSPCNode(context : CanvasRenderingContext2D, i : number, scale : number) {
+        context.fillStyle = colors[i]
+        DrawingUtil.drawSquarePipeCircle(context, scale)
+    }
+}
