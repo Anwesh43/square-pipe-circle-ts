@@ -198,3 +198,25 @@ class SquarePipeCircle {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    spc : SquarePipeCircle = new SquarePipeCircle()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.spc.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.spc.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.spc.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
